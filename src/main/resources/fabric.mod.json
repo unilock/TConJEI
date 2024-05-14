@@ -16,11 +16,14 @@
 	"icon": "icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"jei_mod_plugin": [
-			"me.paypur.tconjei.jei.TConJEIPlugin"
+		"client": [
+			"me.paypur.tconjei.TConJEI"
 		],
 		"emi": [
 			"me.paypur.tconjei.emi.TConEMIPlugin"
+		],
+		"jei_mod_plugin": [
+			"me.paypur.tconjei.jei.TConJEIPlugin"
 		]
 	},
 	"depends": {
