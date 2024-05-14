@@ -1,10 +1,10 @@
 package me.paypur.tconjei.jei;
 
+import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -62,7 +62,7 @@ public record MaterialStatsWrapper(Material material) {
 
     // taken from AbstractMaterialContent
     public List<ItemStack> getToolParts() {
-        return RegistryHelper.getTagValueStream(Registry.ITEM, TinkerTags.Items.TOOL_PARTS)
+        return RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, TinkerTags.Items.TOOL_PARTS)
                 .filter(part -> part instanceof IToolPart)
                 .map(part -> (IToolPart) part)
                 .filter(part -> part.canUseMaterial(material))

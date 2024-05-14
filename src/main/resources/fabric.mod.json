@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "tconjei",
+	"version": "${version}",
+	"name": "TConJEI",
+	"description": "A port of a rewrite of Tinker's JEI for Fabric.",
+	"authors": [
+		"paypur",
+		"unilock"
+	],
+	"contact": {
+		"sources": "https://github.com/unilock/TConJEI",
+		"issues": "https://github.com/unilock/TConJEI/issues"
+	},
+	"license": "MIT",
+	"icon": "icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"jei_mod_plugin": [
+			"me.paypur.tconjei.jei.TConJEIPlugin"
+		]
+	},
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": ">=1.20.1",
+		"fabric-api": "*",
+		"tconstruct": "*",
+		"jei": "*"
+	}
+}
