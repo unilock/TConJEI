@@ -1,5 +1,7 @@
 package me.paypur.tconjei.jei;
 
+import me.paypur.tconjei.xplat.MaterialStatsWrapper;
+import me.paypur.tconjei.xplat.ToolPartsWrapper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -8,17 +10,9 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import slimeknights.tconstruct.library.materials.MaterialRegistry;
-import slimeknights.tconstruct.library.materials.definition.Material;
-import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
-import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.tables.TinkerTables;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static me.paypur.tconjei.TConJEI.MOD_ID;
+import static me.paypur.tconjei.TConJEI.*;
 
 @SuppressWarnings("unused")
 @JeiPlugin
@@ -53,24 +47,4 @@ public class TConJEIPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(TinkerTables.tinkersAnvil.asItem()), TOOL_PARTS);
         registration.addRecipeCatalyst(new ItemStack(TinkerTables.scorchedAnvil.asItem()), TOOL_PARTS);
     }
-
-    private List<MaterialStatsWrapper> materials() {
-        return MaterialRegistry.getMaterials()
-                .stream()
-                .filter(iMaterial -> !iMaterial.isHidden())
-                .map(stats -> new MaterialStatsWrapper((Material) stats))
-                .filter(MaterialStatsWrapper::hasTraits)
-                .collect(Collectors.toList());
-    }
-
-    private List<ToolPartsWrapper> toolDefinitions() {
-        return ToolDefinitionLoader.getInstance().getRegisteredToolDefinitions()
-                .stream()
-                .filter(definition -> definition.isMultipart() && !definition.getId().equals(new ResourceLocation("tconstruct", "slime_helmet")))
-                .sorted(Comparator.comparingInt(a -> StationSlotLayoutLoader.getInstance().get(a.getId()).getSortIndex()))
-                .map(ToolPartsWrapper::new)
-                .toList();
-    }
-
-
 }

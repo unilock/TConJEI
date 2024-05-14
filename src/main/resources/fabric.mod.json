@@ -18,13 +18,19 @@
 	"entrypoints": {
 		"jei_mod_plugin": [
 			"me.paypur.tconjei.jei.TConJEIPlugin"
+		],
+		"emi": [
+			"me.paypur.tconjei.emi.TConEMIPlugin"
 		]
 	},
 	"depends": {
 		"fabricloader": "*",
 		"minecraft": ">=1.20.1",
 		"fabric-api": "*",
-		"tconstruct": "*",
+		"tconstruct": "*"
+	},
+	"suggests": {
+		"emi": "*",
 		"jei": "*"
 	}
 }

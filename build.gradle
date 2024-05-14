@@ -49,9 +49,16 @@ dependencies {
         exclude group: 'mezz.jei'
     }
 
-    modCompileOnlyApi "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
-    modCompileOnlyApi "mezz.jei:jei-${project.minecraft_version}-fabric-api:${project.jei_version}"
-    modRuntimeOnly "mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}"
+    modCompileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
+    modCompileOnly "mezz.jei:jei-${project.minecraft_version}-fabric-api:${project.jei_version}"
+
+	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
+
+	switch (project.recipe_viewer.toLowerCase(Locale.ROOT)) {
+		case "emi": modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"; break
+		case "jei": modLocalRuntime "mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}"; break
+		default: System.err.println("Invalid recipe_viewer selected!"); break
+	}
 
     modCompileOnly "io.github.fabricators_of_create.Porting-Lib:fluids:${project.portinglib_version}+${project.minecraft_version}"
 	modCompileOnly "io.github.fabricators_of_create.Porting-Lib:items:${project.portinglib_version}+${project.minecraft_version}"

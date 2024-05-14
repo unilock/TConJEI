@@ -1,5 +1,6 @@
 package me.paypur.tconjei.jei;
 
+import me.paypur.tconjei.xplat.ToolPartsWrapper;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -18,16 +19,13 @@ import slimeknights.tconstruct.tools.TinkerTools;
 import java.util.Collections;
 import java.util.List;
 
-import static me.paypur.tconjei.TConJEI.MOD_ID;
-import static me.paypur.tconjei.TConJEI.inBox;
+import static me.paypur.tconjei.TConJEI.*;
+import static me.paypur.tconjei.xplat.ToolPartsWrapper.*;
 
 public class ToolPartsCategory implements IRecipeCategory<ToolPartsWrapper> {
 
     final ResourceLocation UID = new ResourceLocation(MOD_ID, "tool_parts");
     final IDrawable BACKGROUND, ICON, ANVIL, SLOT;
-    final int WIDTH = 120;
-    final int HEIGHT = 60;
-    final int ITEM_SIZE = 16;
 
     public ToolPartsCategory(IGuiHelper guiHelper) {
         this.BACKGROUND = guiHelper.createDrawable(new ResourceLocation(MOD_ID, "textures/gui/toolparts/bg.png"), 0, 0, WIDTH, HEIGHT);
@@ -45,9 +43,9 @@ public class ToolPartsCategory implements IRecipeCategory<ToolPartsWrapper> {
 
         assert items.size() == slots.size();
 
-        xy offsets = getOffsets(recipe);
+        Point offsets = getOffsets(recipe);
         for (int i = 0; i < items.size(); i++) {
-            builder.addSlot(RecipeIngredientRole.INPUT, slots.get(i).getX() + offsets.x, slots.get(i).getY() + offsets.y).addItemStack(items.get(i));
+            builder.addSlot(RecipeIngredientRole.INPUT, slots.get(i).getX() + offsets.x(), slots.get(i).getY() + offsets.y()).addItemStack(items.get(i));
         }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, WIDTH - 25, (HEIGHT - ITEM_SIZE) / 2).addItemStack(recipe.getTool());
@@ -59,10 +57,10 @@ public class ToolPartsCategory implements IRecipeCategory<ToolPartsWrapper> {
             this.ANVIL.draw(guiGraphics, 65, 42);
         }
 
-        xy offsets = getOffsets(recipe);
+        Point offsets = getOffsets(recipe);
         for (LayoutSlot slot : recipe.getSlots()) {
             // need to offset by 1 because the inventory slot icons are 18x18
-            this.SLOT.draw(guiGraphics, slot.getX() + offsets.x - 1, slot.getY() + offsets.y - 1);
+            this.SLOT.draw(guiGraphics, slot.getX() + offsets.x() - 1, slot.getY() + offsets.y() - 1);
         }
     }
 
@@ -72,32 +70,6 @@ public class ToolPartsCategory implements IRecipeCategory<ToolPartsWrapper> {
                 Collections.singletonList(Component.literal("Broad tools require a Tinker's Anvil!")) :
                     Collections.emptyList();
     }
-
-    private xy getOffsets(ToolPartsWrapper recipe) {
-        List<LayoutSlot> slots = recipe.getSlots();
-
-        int minX, maxX, minY, maxY;
-        minX = slots.get(0).getX();
-        maxX = slots.get(0).getX();
-        minY = slots.get(0).getY();
-        maxY = slots.get(0).getY();
-
-        for (int i = 1; i < slots.size(); i++) {
-            minX = Math.min(slots.get(i).getX(), minX);
-            maxX = Math.max(slots.get(i).getX(), maxX);
-            minY = Math.min(slots.get(i).getY(), minY);
-            maxY = Math.max(slots.get(i).getY(), maxY);
-        }
-
-        // centers slots vertically
-        int yOffset = (HEIGHT - (ITEM_SIZE + maxY - minY)) / 2 - minY;
-        // centers slots horizontally within square
-        int xOffset = (HEIGHT - (ITEM_SIZE + maxX - minX)) / 2 - minX;
-
-        return new xy(xOffset, yOffset);
-    }
-
-    private record xy(int x, int y) {}
 
     @Override
     public Component getTitle() {
