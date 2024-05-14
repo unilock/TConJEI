@@ -20,9 +20,7 @@ import static me.paypur.tconjei.TConJEI.*;
 import static me.paypur.tconjei.xplat.ToolPartsWrapper.*;
 
 public class ToolPartsEmiRecipe implements EmiRecipe {
-    private static final EmiTexture BACKGROUND = new EmiTexture(new ResourceLocation(MOD_ID, "textures/gui/toolparts/bg.png"), 0, 0, WIDTH, HEIGHT);
     private static final EmiTexture ANVIL = new EmiTexture(new ResourceLocation(MOD_ID, "textures/gui/toolparts/anvil.png"), 0, 0, 16, 16);
-    private static final EmiTexture SLOT = new EmiTexture(new ResourceLocation(MOD_ID, "textures/gui/toolparts/slot.png"), 0, 0, 18, 18);
 
     private final ResourceLocation id;
     private final List<EmiIngredient> input;
@@ -70,21 +68,19 @@ public class ToolPartsEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(BACKGROUND, 0, 0);
-
-        List<LayoutSlot> slots = recipe.getSlots();
         List<ItemStack> items = recipe.getToolRecipe();
+        List<LayoutSlot> slots = recipe.getSlots();
 
         assert items.size() == slots.size();
 
         Point offsets = getOffsets(recipe);
         for (int i = 0; i < items.size(); i++) {
-            // need to offset by 1 because the inventory slot icons are 18x18
-            widgets.addTexture(SLOT, slots.get(i).getX() + offsets.x() - 1, slots.get(i).getY() + offsets.y() - 1);
-            widgets.addSlot(EmiStack.of(items.get(i)), slots.get(i).getX() + offsets.x(), slots.get(i).getY() + offsets.y()).drawBack(false);
+            widgets.addSlot(EmiStack.of(items.get(i)), slots.get(i).getX() + offsets.x(), slots.get(i).getY() + offsets.y());
         }
 
-        widgets.addSlot(output.get(0), WIDTH - 25, (HEIGHT - ITEM_SIZE) / 2).drawBack(false).recipeContext(this);
+        widgets.addTexture(EmiTexture.EMPTY_ARROW, WIDTH - 57, (HEIGHT - ITEM_SIZE) / 2);
+
+        widgets.addSlot(output.get(0), WIDTH - 25, (HEIGHT - ITEM_SIZE) / 2).recipeContext(this);
 
         if (recipe.isBroadTool()) {
             widgets.addTexture(ANVIL, 65, 42);

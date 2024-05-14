@@ -101,7 +101,7 @@ public class MaterialStatsEmiRecipe implements EmiRecipe {
         }
 
         widgets.addSlot(this.itemStacks, 0, 0);
-        widgets.addSlot(this.toolParts, WIDTH - 16, 0);
+        widgets.addSlot(this.toolParts, WIDTH - 16, 0).recipeContext(this);
 
         final String materialName = getPattern(String.format("material.%s.%s", recipe.getMaterialId().getNamespace(), recipe.getMaterialId().getPath()));
         final int MATERIAL_COLOR = MaterialTooltipCache.getColor(recipe.getMaterialId()).getValue();
