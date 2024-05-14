@@ -3,9 +3,13 @@ package me.paypur.tconjei;
 import me.paypur.tconjei.xplat.MaterialStatsWrapper;
 import me.paypur.tconjei.xplat.ToolPartsWrapper;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
@@ -35,17 +39,29 @@ public class TConJEI implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        try {
-            ResourceLocation palette = new ResourceLocation(MOD_ID, "textures/gui/palette.png");
-            InputStream stream = Minecraft.getInstance().getResourceManager().getResource(palette).orElseThrow().open();
-            BufferedImage image = ImageIO.read(stream);
-            TEXT_COLOR = image.getRGB(0, 0);
-            DURABILITY_COLOR = image.getRGB(1, 0);
-            MINING_COLOR = image.getRGB(0, 1);
-            ATTACK_COLOR = image.getRGB(1, 1);
-        } catch (IOException | NoSuchElementException e) {
-            LOGGER.error("Error loading palette", e);
-        }
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
+            private static final ResourceLocation ID = new ResourceLocation(MOD_ID, "reload");
+
+            @Override
+            public ResourceLocation getFabricId() {
+                return ID;
+            }
+
+            @Override
+            public void onResourceManagerReload(ResourceManager resourceManager) {
+                try {
+                    ResourceLocation palette = new ResourceLocation(MOD_ID, "textures/gui/palette.png");
+                    InputStream stream = resourceManager.getResource(palette).orElseThrow().open();
+                    BufferedImage image = ImageIO.read(stream);
+                    TEXT_COLOR = image.getRGB(0, 0);
+                    DURABILITY_COLOR = image.getRGB(1, 0);
+                    MINING_COLOR = image.getRGB(0, 1);
+                    ATTACK_COLOR = image.getRGB(1, 1);
+                } catch (IOException | NoSuchElementException e) {
+                    LOGGER.error("Error loading palette", e);
+                }
+            }
+        });
     }
 
     public static boolean inBox(double mX, double mY, float x, float y, float w, float h) {
