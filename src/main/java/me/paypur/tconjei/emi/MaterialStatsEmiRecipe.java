@@ -117,11 +117,12 @@ public class MaterialStatsEmiRecipe implements EmiRecipe {
         Optional<BowstringMaterialStats> stringStats = recipe.getStats(BowstringMaterialStats.ID);
         // HEAD
         if (headStats.isPresent()) {
-            String miningLevel = headStats.get().getTierId().getPath();
+            String miningLevelNamespace = headStats.get().getTierId().getNamespace();
+            String miningLevelPath = headStats.get().getTierId().getPath();
             drawTraits(widgets, recipe, HeadMaterialStats.ID, lineNumber);
             widgets.addText(Component.literal(String.format("[%s]", getPattern("stat.tconstruct.head"))), 0, (int) (lineNumber++ * LINE_HEIGHT + LINE_OFFSET), MATERIAL_COLOR, true);
             drawStats(widgets, "tool_stat.tconstruct.durability", String.valueOf(headStats.get().getDurability()), lineNumber++, DURABILITY_COLOR);
-            drawStats(widgets, "tool_stat.tconstruct.harvest_tier", getPattern("stat.tconstruct.harvest_tier.minecraft." + miningLevel), lineNumber++, getMiningLevelColor(miningLevel));
+            drawStats(widgets, "tool_stat.tconstruct.harvest_tier", getPattern("stat.tconstruct.harvest_tier." + miningLevelNamespace + "." + miningLevelPath), lineNumber++, getMiningLevelColor(miningLevelPath));
             drawStats(widgets, "tool_stat.tconstruct.mining_speed", String.format("%.2f", headStats.get().getMiningSpeed()), lineNumber++, MINING_COLOR);
             drawStats(widgets, "tool_stat.tconstruct.attack_damage", String.format("%.2f", headStats.get().getAttack()), lineNumber++, ATTACK_COLOR);
             lineNumber += 0.4f;

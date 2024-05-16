@@ -68,11 +68,12 @@ public class MaterialStatsCategory implements IRecipeCategory<MaterialStatsWrapp
         Optional<BowstringMaterialStats> stringStats = recipe.getStats(BowstringMaterialStats.ID);
         // HEAD
         if (headStats.isPresent()) {
-            String miningLevel = headStats.get().getTierId().getPath();
+            String miningLevelNamespace = headStats.get().getTierId().getNamespace();
+            String miningLevelPath = headStats.get().getTierId().getPath();
             drawTraits(guiGraphics, recipe, HeadMaterialStats.ID, lineNumber);
             guiGraphics.drawString(FONT, String.format("[%s]", getPattern("stat.tconstruct.head")), 0, (int) (lineNumber++ * LINE_HEIGHT + LINE_OFFSET), MATERIAL_COLOR);
             drawStats(guiGraphics, "tool_stat.tconstruct.durability", String.valueOf(headStats.get().getDurability()), lineNumber++, DURABILITY_COLOR);
-            drawStats(guiGraphics, "tool_stat.tconstruct.harvest_tier", getPattern("stat.tconstruct.harvest_tier.minecraft." + miningLevel), lineNumber++, getMiningLevelColor(miningLevel));
+            drawStats(guiGraphics, "tool_stat.tconstruct.harvest_tier", getPattern("stat.tconstruct.harvest_tier." + miningLevelNamespace + "." + miningLevelPath), lineNumber++, getMiningLevelColor(miningLevelPath));
             drawStats(guiGraphics, "tool_stat.tconstruct.mining_speed", String.format("%.2f", headStats.get().getMiningSpeed()), lineNumber++, MINING_COLOR);
             drawStats(guiGraphics, "tool_stat.tconstruct.attack_damage", String.format("%.2f", headStats.get().getAttack()), lineNumber++, ATTACK_COLOR);
             lineNumber += 0.4f;
