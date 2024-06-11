@@ -46,8 +46,7 @@ public record ToolPartsWrapper(ToolDefinition definition) {
     public List<List<ItemStack>> getToolParts() {
         return definition.getData().getParts().stream()
             .map(PartRequirement::getPart)
-            .map(part ->
-                MATERIALS.stream()
+            .map(part -> MATERIALS.stream()
                     .filter(part::canUseMaterial)
                     .map(material -> part.withMaterial(material.getIdentifier()))
                     .toList()

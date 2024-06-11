@@ -28,11 +28,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static me.paypur.tconjei.TConJEI.*;
-
 public record MaterialStatsWrapper(Material material) {
 
-    public static final int WIDTH = 164, HEIGHT = 220;
+    public static final int WIDTH = 172, HEIGHT = 220;
     public static final int LINE_OFFSET = 20;
     public static final int LINE_OFFSET_HOVER = LINE_OFFSET - 1;
     public static final int LINE_HEIGHT = 10;
@@ -92,47 +90,6 @@ public record MaterialStatsWrapper(Material material) {
     public boolean hasTraits() {
         List<MaterialStatsId> stats = List.of(HeadMaterialStats.ID, ExtraMaterialStats.ID, HandleMaterialStats.ID, LimbMaterialStats.ID, GripMaterialStats.ID, BowstringMaterialStats.ID);
         return stats.stream().anyMatch(stat -> !getTraits(stat).isEmpty());
-    }
-
-    public static int getMiningLevelColor(String miningLevel) {
-        return switch (miningLevel) {
-            case "wood" -> 9200923;
-            case "gold" -> 16558080;
-            case "stone" -> 9934743;
-            case "iron" -> 14342874; // default color 13158600 is not visible in light mode
-            case "diamond" -> 5569788;
-            case "netherite" -> 4997443;
-            default -> TEXT_COLOR;
-        };
-    }
-
-    // @formatter:off
-    // TODO: found colors in assets/tconstruct/mantle/colors.json
-    public static int getMultiplierColor(Float f) {
-        if (f < 0.55f) { return 12386304; } //bd0000
-        if (f < 0.60f) { return 12396032; } //bd2600
-        if (f < 0.65f) { return 12405504; } //bd4b00
-        if (f < 0.70f) { return 12415232; } //bd7100
-        if (f < 0.75f) { return 12424960; } //bd9700
-        if (f < 0.80f) { return 12434688; } //bdbd00
-        if (f < 0.85f) { return 9944320; } //97bd00
-        if (f < 0.90f) { return 7453952; } //71bd00
-        if (f < 0.95f) { return 4963584; } //4bbd00
-        if (f < 1.00f) { return 2538752; } //26bd00
-        if (f < 1.05f) { return 48384; } //00bd00
-        if (f < 1.10f) { return 48422; } //00bd26
-        if (f < 1.15f) { return 48459; } //00bd4b
-        if (f < 1.20f) { return 48497; } //00bd71
-        if (f < 1.25f) { return 48535; } //00bd97
-        if (f < 1.30f) { return 48573; } //00bdbd
-        if (f < 1.35f) { return 38845; } //0097bd
-        if (f < 1.4f) { return 29117; } //0071bd
-        return 19389; //004bbd
-    }
-    // @formatter:on
-
-    public static int getDifferenceColor(Float f) {
-        return getMultiplierColor(f + 1f);
     }
 
     public static String signedString(float f) {

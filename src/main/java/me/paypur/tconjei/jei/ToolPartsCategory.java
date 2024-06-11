@@ -29,7 +29,7 @@ public class ToolPartsCategory implements IRecipeCategory<ToolPartsWrapper> {
 
     public ToolPartsCategory(IGuiHelper guiHelper) {
         this.BACKGROUND = guiHelper.createDrawable(new ResourceLocation(MOD_ID, "textures/gui/toolparts/bg.png"), 0, 0, WIDTH, HEIGHT);
-        this.ICON = guiHelper.createDrawableItemStack(TinkerTools.cleaver.get().getRenderTool());
+        this.ICON = guiHelper.createDrawableItemStack(TinkerTools.sledgeHammer.get().getRenderTool());
         this.ANVIL = guiHelper.createDrawable(new ResourceLocation(MOD_ID, "textures/gui/toolparts/anvil.png"), 0, 0, 16, 16);
         this.SLOT = guiHelper.createDrawable(new ResourceLocation(MOD_ID, "textures/gui/toolparts/slot.png"), 0, 0, 18, 18);
     }
