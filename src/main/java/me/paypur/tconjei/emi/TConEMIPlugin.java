@@ -13,7 +13,7 @@ import static me.paypur.tconjei.TConJEI.*;
 
 public class TConEMIPlugin implements EmiPlugin {
     public static final EmiRecipeCategory MATERIAL_STATS = new EmiRecipeCategory(new ResourceLocation(MOD_ID, "material_stats"), new EmiTexture(new ResourceLocation(MOD_ID, "textures/gui/materialstats/icon.png"), 0, 0, 16, 16));
-    public static final EmiRecipeCategory TOOL_PARTS = new EmiRecipeCategory(new ResourceLocation(MOD_ID, "tool_parts"), EmiStack.of(TinkerTools.cleaver.get().getRenderTool()));
+    public static final EmiRecipeCategory TOOL_PARTS = new EmiRecipeCategory(new ResourceLocation(MOD_ID, "tool_parts"), EmiStack.of(TinkerTools.sledgeHammer.get().getRenderTool()));
 
     @Override
     public void register(EmiRegistry registry) {
