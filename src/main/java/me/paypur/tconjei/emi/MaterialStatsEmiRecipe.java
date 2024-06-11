@@ -6,6 +6,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import me.paypur.tconjei.xplat.MaterialStatsWrapper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -102,12 +103,11 @@ public class MaterialStatsEmiRecipe implements EmiRecipe {
         widgets.addSlot(this.toolParts, WIDTH - 16, 0).recipeContext(this);
 
         final String materialName = getPattern(Util.makeTranslationKey("material", recipe.getMaterialId()));
-        final String materialNamespace = recipe.getMaterialId().getNamespace();
-        final String materialPath = recipe.getMaterialId().getPath();
+        final String materialTooltip = getPattern(Util.makeTranslationKey("material", recipe.getMaterialId()) + ".flavor");
         final int MATERIAL_COLOR = MaterialTooltipCache.getColor(recipe.getMaterialId()).getValue();
         // Name
         drawShadow(widgets, materialName, (WIDTH - FONT.width(materialName)) / 2f, 0.4f, MATERIAL_COLOR);
-        widgets.addTooltipText(List.of(Component.translatable(String.format("material.%s.%s.flavor", materialNamespace, materialPath)).setStyle(Style.EMPTY.withItalic(true).withColor(WHITE))), (int) ((WIDTH - FONT.width(materialPath)) / 2f), (int) (0.4f * LINE_HEIGHT - 1), FONT.width(materialPath), LINE_HEIGHT);
+        widgets.addTooltipText(List.of(Component.literal(materialTooltip).setStyle(Style.EMPTY.withItalic(true).withColor(WHITE))), (int) ((WIDTH - FONT.width(materialName)) / 2f), (int) (0.4f * LINE_HEIGHT - 1), FONT.width(materialName), LINE_HEIGHT);
         float lineNumber = 2f;
         Optional<HeadMaterialStats> headOptional = recipe.getStats(HeadMaterialStats.ID);
         Optional<ExtraMaterialStats> extraOptional = recipe.getStats(ExtraMaterialStats.ID);
@@ -186,13 +186,18 @@ public class MaterialStatsEmiRecipe implements EmiRecipe {
         int width = FONT.width(pattern);
         widgets.addText(Component.literal(pattern), 0, (int) (lineNumber * LINE_HEIGHT), TEXT_COLOR, false);
         drawShadow(widgets, stat, width, lineNumber, ACCENT_COLOR);
+        widgets.addTooltipText(List.of(Component.translatable(type + ".description")), 0, (int) (lineNumber * LINE_HEIGHT - 1), width, LINE_HEIGHT);
     }
 
     private void drawTraits(WidgetHolder widgets, List<ModifierEntry> traits, float lineNumber) {
         for (ModifierEntry trait : traits) {
-            String pattern = getPattern(Util.makeTranslationKey("modifier", trait.getId()));
-            int traitColor = ResourceColorManager.getColor(Util.makeTranslationKey("modifier", trait.getId()));
-            drawShadow(widgets, pattern, WIDTH - FONT.getSplitter().stringWidth(pattern), lineNumber++, traitColor);
+            String patternKey = Util.makeTranslationKey("modifier", trait.getId());
+            String pattern = getPattern(patternKey);
+            int traitColor = ResourceColorManager.getColor(patternKey);
+            int width = FONT.width(pattern);
+            drawShadow(widgets, pattern, WIDTH - width, lineNumber, traitColor);
+            widgets.addTooltipText(List.of(Component.translatable(patternKey + ".flavor").withStyle(ChatFormatting.ITALIC),
+                    Component.translatable(patternKey + ".description")), WIDTH - width, (int) (lineNumber * LINE_HEIGHT - 1), width, LINE_HEIGHT);
         }
     }
 
