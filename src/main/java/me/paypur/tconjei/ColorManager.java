@@ -20,7 +20,7 @@ import java.io.InputStream;
 import static me.paypur.tconjei.TConJEI.MOD_ID;
 
 public class ColorManager {
-    public static final Font FONT = Minecraft.getInstance().font;
+    public static Font FONT = Minecraft.getInstance().font;
 
     public static final int WHITE = 0xFFFFFF;
     public static final int BLACK = 0x000000;
@@ -52,6 +52,8 @@ public class ColorManager {
                 } catch (IOException e) {
                     LogUtils.getLogger().error("Error loading palette", e);
                 }
+
+                ColorManager.FONT = Minecraft.getInstance().font;
             }
         });
     }
